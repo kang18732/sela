@@ -110,6 +110,9 @@ else()
     target_link_libraries(sela Threads::Threads ao)
 endif()
 
+set_target_properties(sela
+    PROPERTIES LINK_FLAGS "--bind -s EXPORT_ES6=1 -s MODULARIZE=1 -s ALLOW_MEMORY_GROWTH=1")
+
 # Enable Warnings for MSVC/GCC/Clang on Debug Mode
 if(CMAKE_BUILD_TYPE MATCHES "Debug")
     if(MSVC)

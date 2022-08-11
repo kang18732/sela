@@ -33,15 +33,17 @@ public:
     }
 };
 
-void Decoder::readFrames()
-{
-    selaFile.readFromFile(ifStream);
-}
+// void Decoder::readFrames()
+// {
+//     selaFile.readFromFile(ifStream);
+// }
 
 void Decoder::processFrames(std::vector<data::WavFrame>& decodedWavFrames)
 {
     // Get number of threads supported by hardware
     size_t numThreads = std::thread::hardware_concurrency();
+    // printf("(decoder) numThreads: %d\n", numThreads);
+    numThreads = 0;
     decodedWavFrames.reserve(selaFile.selaFrames.size());
 
     if (numThreads > 0) {
@@ -91,10 +93,23 @@ void Decoder::processFrames(std::vector<data::WavFrame>& decodedWavFrames)
     }
 }
 
-file::WavFile Decoder::process()
+// file::WavFile Decoder::process()
+// {
+//     std::vector<data::WavFrame> wavFrames;
+//     readFrames();
+//     processFrames(wavFrames);
+//     return file::WavFile(selaFile.selaHeader.sampleRate, selaFile.selaHeader.bitsPerSample, selaFile.selaHeader.channels, std::move(wavFrames));
+// }
+
+void Decoder::readFrames2()
+{
+    selaFile.readFromVector(contents);
+}
+
+file::WavFile Decoder::process2()
 {
     std::vector<data::WavFrame> wavFrames;
-    readFrames();
+    readFrames2();
     processFrames(wavFrames);
     return file::WavFile(selaFile.selaHeader.sampleRate, selaFile.selaHeader.bitsPerSample, selaFile.selaHeader.channels, std::move(wavFrames));
 }

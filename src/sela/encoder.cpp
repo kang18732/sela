@@ -32,15 +32,17 @@ public:
     }
 };
 
-void Encoder::readFrames()
-{
-    wavFile.readFromFile(ifStream);
-}
+// void Encoder::readFrames()
+// {
+//     wavFile.readFromFile(ifStream);
+// }
 
 void Encoder::processFrames(std::vector<data::SelaFrame>& encodedSelaFrames)
 {
     // Get number of threads supported by hardware
     size_t numThreads = std::thread::hardware_concurrency();
+    // printf("(encoder) numThreads: %d\n", numThreads);
+    numThreads = 0;
     encodedSelaFrames.reserve(wavFile.wavChunk.dataSubChunk.wavFrames.size());
 
     if (numThreads > 0) {
@@ -91,10 +93,23 @@ void Encoder::processFrames(std::vector<data::SelaFrame>& encodedSelaFrames)
     }
 }
 
-file::SelaFile Encoder::process()
+// file::SelaFile Encoder::process()
+// {
+//     std::vector<data::SelaFrame> selaFrames;
+//     readFrames();
+//     processFrames(selaFrames);
+//     return file::SelaFile(wavFile.wavChunk.formatSubChunk.sampleRate, wavFile.wavChunk.formatSubChunk.bitsPerSample, (uint8_t)wavFile.wavChunk.formatSubChunk.numChannels, std::move(selaFrames));
+// }
+
+void Encoder::readFrames2()
+{
+    wavFile.readFromVector(contents);
+}
+
+file::SelaFile Encoder::process2()
 {
     std::vector<data::SelaFrame> selaFrames;
-    readFrames();
+    readFrames2();
     processFrames(selaFrames);
     return file::SelaFile(wavFile.wavChunk.formatSubChunk.sampleRate, wavFile.wavChunk.formatSubChunk.bitsPerSample, (uint8_t)wavFile.wavChunk.formatSubChunk.numChannels, std::move(selaFrames));
 }

@@ -9,13 +9,16 @@
 namespace file {
 class WavFile {
 public:
-    size_t samplesPerChannelPerFrame = 2048;
+    // size_t samplesPerChannelPerFrame = 2048;
+    size_t samplesPerChannelPerFrame = 480;
     void demuxSamples();
     data::WavChunk wavChunk;
     WavFile() {}
     WavFile(uint32_t sampleRate, uint16_t bitsPerSample, uint16_t numChannels, std::vector<data::WavFrame>&& wavFrames);
     void readFromFile(std::ifstream& inputFile);
+    void readFromVector(std::vector<char>& contents);
     void writeToFile(std::ofstream& outputFile);
+    std::vector<char> writeToVector();
 };
 }
 

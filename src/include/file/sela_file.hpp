@@ -12,7 +12,9 @@ public:
     data::SelaHeader selaHeader;
     std::vector<data::SelaFrame> selaFrames;
     void readFromFile(std::ifstream& inputFile);
+    void readFromVector(std::vector<char>& contents);
     void writeToFile(std::ofstream& outputFile);
+    std::vector<char> writeToVector();
     SelaFile() {}
     SelaFile(uint32_t sampleRate, uint16_t bitsPerSample, uint8_t channels, std::vector<data::SelaFrame>&& selaFrames);
 };

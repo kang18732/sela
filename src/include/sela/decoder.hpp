@@ -9,16 +9,23 @@ namespace sela {
 class Decoder {
 private:
     void readFrames();
+    void readFrames2();
     void processFrames(std::vector<data::WavFrame>& decodedWavFrames);
-    std::ifstream& ifStream;
+    // std::ifstream& ifStream;
+    std::vector<char>& contents;
     file::SelaFile selaFile;
 
 public:
-    explicit Decoder(std::ifstream& ifStream)
-        : ifStream(ifStream)
+    // explicit Decoder(std::ifstream& ifStream)
+    //     : ifStream(ifStream)
+    // {
+    // }
+    Decoder(std::vector<char>& contents)
+        : contents(contents)
     {
     }
     file::WavFile process();
+    file::WavFile process2();
 };
 }
 
